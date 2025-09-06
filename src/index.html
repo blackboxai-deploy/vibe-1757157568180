@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Pomodoro Timer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-auto">
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <h1>🍅 Pomodoro Timer</h1>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-icon" id="alwaysOnTopBtn" title="Toggle Always on Top">📌</button>
+                <button class="btn btn-icon" id="settingsBtn" title="Settings">⚙️</button>
+                <button class="btn btn-icon" id="analyticsBtn" title="Analytics">📊</button>
+            </div>
+        </header>
+
+        <!-- Main Timer Section -->
+        <main class="timer-section">
+            <!-- Current Mode Display -->
+            <div class="current-mode" id="currentMode">Focus Session</div>
+            
+            <!-- Timer Display -->
+            <div class="timer-display" id="timerDisplay">25:00</div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            
+            <!-- Session Info -->
+            <div class="session-info" id="sessionInfo">Session 1 of 4</div>
+            
+            <!-- Session Counter -->
+            <div class="session-counter" id="sessionCounter"></div>
+            
+            <!-- Timer Controls -->
+            <div class="controls">
+                <button class="btn btn-start" id="startBtn">▶️ Start</button>
+                <button class="btn btn-pause" id="pauseBtn" disabled>⏸️ Pause</button>
+                <button class="btn btn-reset" id="resetBtn">🔄 Reset</button>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="todaySessionsCount">0</div>
+                    <div class="stat-label">Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="streakCount">0</div>
+                    <div class="stat-label">Streak</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalMinutes">0</div>
+                    <div class="stat-label">Minutes</div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Settings Panel -->
+        <aside class="settings-panel" id="settingsPanel">
+            <div class="panel-header">
+                <h3>Settings</h3>
+                <button class="btn btn-close" id="closeSettingsBtn">✕</button>
+            </div>
+            
+            <div class="panel-content">
+                <!-- Timer Settings -->
+                <div class="settings-section">
+                    <h4>Timer Settings</h4>
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label for="focusTime">Focus Session (minutes)</label>
+                            <input type="number" id="focusTime" value="25" min="1" max="120">
+                        </div>
+                        <div class="setting-group">
+                            <label for="shortBreakTime">Short Break (minutes)</label>
+                            <input type="number" id="shortBreakTime" value="5" min="1" max="60">
+                        </div>
+                        <div class="setting-group">
+                            <label for="longBreakTime">Long Break (minutes)</label>
+                            <input type="number" id="longBreakTime" value="15" min="1" max="120">
+                        </div>
+                        <div class="setting-group">
+                            <label for="sessionsBeforeLongBreak">Sessions before Long Break</label>
+                            <input type="number" id="sessionsBeforeLongBreak" value="4" min="2" max="20">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Behavior Settings -->
+                <div class="settings-section">
+                    <h4>Behavior</h4>
+                    <div class="settings-grid">
+                        <div class="setting-group checkbox">
+                            <input type="checkbox" id="autoStartBreaks">
+                            <label for="autoStartBreaks">Auto-start breaks</label>
+                        </div>
+                        <div class="setting-group checkbox">
+                            <input type="checkbox" id="autoStartPomodoros">
+                            <label for="autoStartPomodoros">Auto-start focus sessions</label>
+                        </div>
+                        <div class="setting-group checkbox">
+                            <input type="checkbox" id="soundEnabled" checked>
+                            <label for="soundEnabled">Enable sounds</label>
+                        </div>
+                        <div class="setting-group checkbox">
+                            <input type="checkbox" id="notificationsEnabled" checked>
+                            <label for="notificationsEnabled">Enable notifications</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Goals Settings -->
+                <div class="settings-section">
+                    <h4>Goals</h4>
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label for="dailyGoal">Daily goal (sessions)</label>
+                            <input type="number" id="dailyGoal" value="8" min="1" max="50">
+                        </div>
+                        <div class="setting-group">
+                            <label for="weeklyGoal">Weekly goal (sessions)</label>
+                            <input type="number" id="weeklyGoal" value="40" min="1" max="200">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Theme Settings -->
+                <div class="settings-section">
+                    <h4>Appearance</h4>
+                    <div id="themeSelector"></div>
+                </div>
+                
+                <!-- Data Management -->
+                <div class="settings-section">
+                    <h4>Data</h4>
+                    <div class="button-group">
+                        <button class="btn btn-secondary" id="exportDataBtn">Export Data</button>
+                        <button class="btn btn-secondary" id="importDataBtn">Import Data</button>
+                        <button class="btn btn-danger" id="resetStatsBtn">Reset Stats</button>
+                    </div>
+                    <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                </div>
+            </div>
+        </aside>
+
+        <!-- Analytics Panel -->
+        <aside class="analytics-panel" id="analyticsPanel">
+            <div class="panel-header">
+                <h3>Analytics</h3>
+                <button class="btn btn-close" id="closeAnalyticsBtn">✕</button>
+            </div>
+            
+            <div class="panel-content">
+                <!-- Today's Progress -->
+                <div class="analytics-section">
+                    <h4>Today's Progress</h4>
+                    <div id="todayProgress"></div>
+                </div>
+                
+                <!-- Weekly Overview -->
+                <div class="analytics-section">
+                    <h4>Weekly Overview</h4>
+                    <div id="weeklyChart"></div>
+                </div>
+                
+                <!-- Statistics -->
+                <div class="analytics-section">
+                    <h4>Statistics</h4>
+                    <div id="statisticsGrid"></div>
+                </div>
+                
+                <!-- Session History -->
+                <div class="analytics-section">
+                    <h4>Recent Sessions</h4>
+                    <div id="sessionHistory"></div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="js/timer.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/themes.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
