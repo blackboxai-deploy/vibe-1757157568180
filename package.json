@@ -4,12 +4,12 @@
   "description": "A customizable Pomodoro timer desktop application",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron .",
-    "dev": "electron . --dev",
-    "build": "electron-builder",
-    "build:win": "electron-builder --win",
-    "build:mac": "electron-builder --mac",
-    "build:linux": "electron-builder --linux",
+    "start": "node init && electron .",
+    "dev": "node init && electron . --dev",
+    "build": "node init && electron-builder",
+    "build:win": "node init && electron-builder --win",
+    "build:mac": "node init && electron-builder --mac",
+    "build:linux": "node init && electron-builder --linux",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
